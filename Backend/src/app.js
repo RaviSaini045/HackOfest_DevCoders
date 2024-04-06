@@ -16,6 +16,9 @@ app.use(express.static("../public"));
 import userRouter from "../src/routes/user.routes.js";
 import issueRouter from "../src/routes/issue.routes.js";
 import projectRouter from "../src/routes/project.routes.js";
+import commentRouter from "../src/routes/comment.route.js";
+import upvoteRouter from "../src/routes/upvote.route.js";
+import resetPasswordRouter from "../src/routes/resetPassword.route.js";
 
 app.get("/", (req, res) => {
   res.send("Healthy");
@@ -24,5 +27,8 @@ app.get("/", (req, res) => {
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/issue", issueRouter);
 app.use("/api/v1/project", projectRouter);
+app.use("/api/v1/comment", commentRouter);
+app.use("/api/v1/upvote", upvoteRouter);
+app.use("/api/v1/resetPassword", resetPasswordRouter);
 
 export { app };
