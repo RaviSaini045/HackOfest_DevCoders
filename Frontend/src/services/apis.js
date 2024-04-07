@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = "https://public-sphere-backend.onrender.com";
 
 const USER_URL = BASE_URL + "/api/v1/user";
 const ISSUE_URL = BASE_URL + "/api/v1/issue"; 
