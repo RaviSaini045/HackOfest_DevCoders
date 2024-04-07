@@ -5,18 +5,12 @@ import { VscArrowCircleRight } from 'react-icons/vsc';
 import Doodle from '../assets/Doodle.svg'; 
 import Search from '../assets/search_icon.svg'; 
 import Logo from '../assets/LOGO.svg'
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 import Popup from "reactjs-popup"
 import ReportIssue from "../components/ReportIssue.jsx"
-=======
 import { useDispatch } from "react-redux";
 import { logout } from '../services/operations/authAPI';
->>>>>>> 6063a32615fb188223e592d3fb92b1448acefea3
-=======
-import { useDispatch } from "react-redux";
-import { logout } from '../services/operations/authAPI';
->>>>>>> 6063a32615fb188223e592d3fb92b1448acefea3
+
 
 const Navbar = () => {
   const dispatch = useDispatch();
