@@ -18,6 +18,7 @@ export default {
         kaddu:{
           100:"#F0ECE5",
           200:"#F1EAFF",
+          300:"#EB8D00",
           400:"#A964E3",
           
         },

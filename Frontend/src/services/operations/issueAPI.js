@@ -25,7 +25,8 @@ export const postIssue = (postData,navigate) => {
 };
 
 export const getIssues = (locationData,navigate) => {
-    return async () => {
+    console.log(locationData);
+    return async (dispatch) => {
         try {
             const response = await apiConnector("GET",GET_ISSUES,{
                 locationData,

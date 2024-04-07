@@ -11,13 +11,53 @@ import PrivateRoute from './components/Auth/PrivateRoute.jsx'
 import Register from './components/Register.jsx'
 import NewProject from './components/NewProject.jsx'
 import Post from './components/pages/Post.jsx'
+<<<<<<< HEAD
+
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+import ProjectDescription from './components/ProjectDescriptionComponent.jsx'
+=======
+<<<<<<< HEAD
+>>>>>>> fae05bd22cb18cc6077629e120156a40275f1a48
+import PhoneNavbar from './components/PhoneSizeNavbar.jsx'
+>>>>>>> 6063a32615fb188223e592d3fb92b1448acefea3
+=======
+import PhoneNavbar from './components/PhoneSizeNavbar.jsx'
+>>>>>>> 6063a32615fb188223e592d3fb92b1448acefea3
+
 import LocationCapture from './components/LocationCapture.jsx'
 import { useSelector } from "react-redux";
+import Error from "./components/pages/Error.jsx";
 function App() {
   const userLocation = useSelector(state => state.auth.userLocation);
   return (
     <>
+<<<<<<< HEAD
+
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+    <Homepage/>
+=======
+       <Navbar />
+             
+=======
+=======
+>>>>>>> 6063a32615fb188223e592d3fb92b1448acefea3
+    {/* <PhoneNavbar/> */}
+    {/* <Post/> */}
+    {/* <GovtProject/> */}
+    {/* <Issues/> */}
+    <Dashbord/>
+=======
+>>>>>>> fae05bd22cb18cc6077629e120156a40275f1a48
          {!userLocation && <LocationCapture/> }   
+<<<<<<< HEAD
+>>>>>>> 6063a32615fb188223e592d3fb92b1448acefea3
+=======
+>>>>>>> 6063a32615fb188223e592d3fb92b1448acefea3
         {/* Landing Page */}
           <Routes>
             <Route
@@ -68,15 +108,28 @@ function App() {
             />
             {/* Dashboard*/}
             <Route 
-              path="/profile/:userName" 
+              path="/profile/" 
               element={
               // <PrivateRoute>
                 <Dashbord/>
               // </PrivateRoute>
             }
-
               />
+              <Route path='/error' element={<Error/>}/>
           </Routes>
+<<<<<<< HEAD
+
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> main
+=======
+>>>>>>> 80f31570f06a3d71129cd62a6e2af6d1e4be5ce6
+>>>>>>> 6063a32615fb188223e592d3fb92b1448acefea3
+=======
+>>>>>>> 80f31570f06a3d71129cd62a6e2af6d1e4be5ce6
+>>>>>>> 6063a32615fb188223e592d3fb92b1448acefea3
+>>>>>>> fae05bd22cb18cc6077629e120156a40275f1a48
     </>
 
     

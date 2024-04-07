@@ -1,4 +1,4 @@
-import { asynchandler } from "../utils/Asynchandler.js";
+import { asynchandler } from "../utils/asynchandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
@@ -7,6 +7,7 @@ import { OPTIONS, OTP_SUBJECT } from "../constants.js";
 import bcrypt from "bcrypt";
 import { mailSender } from "../utils/mailSender.js";
 import { OTP } from "../models/OTP.model.js";
+import otpTemplate from "../mail/templates/verificationMail.js";
 
 const generateAcessandRefreshTokens = async (userId) => {
   try {
@@ -37,7 +38,7 @@ const sendOTP = asynchandler(async (req, res, _) => {
     otp,
   });
   if (!savedOTP) throw new ApiError(500, "Unable to Save OTP");
-  const mail = mailSender(email, OTP_SUBJECT, `Your otp is ${otp}`);
+  const mail = mailSender(email, OTP_SUBJECT, `$Your OTP is ${otp}`);
   if (!mail)
     throw new ApiError(500, "Something went wrong while sending email");
   return res
@@ -47,8 +48,9 @@ const sendOTP = asynchandler(async (req, res, _) => {
 
 const registerUser = asynchandler(async (req, res) => {
   const { fullName, email, username, password, aadharCard, otp,role } = req.body;
+  console.log(req.body)
   if (
-    [fullName, email, username, password, aadharCard, otp].some(
+    [fullName, email, username, password, aadharCard, otp, role].some(
       (field) => field?.trim() === ""
     )
   ) {
@@ -65,6 +67,7 @@ const registerUser = asynchandler(async (req, res) => {
   if (dbOTP.expiresAt < new Date())
     throw new ApiError(401, "OTP is invalid or expired");
   const avatarLocalpath = req.file?.path;
+  console.log(req.file);
   if (!avatarLocalpath) throw new ApiError(400, "Avatar file is required");
   const avatar = await uploadOnCloudinary(avatarLocalpath);
   if (!avatar) {
@@ -91,10 +94,13 @@ const registerUser = asynchandler(async (req, res) => {
 }); //80% tested
 
 const loginUser = asynchandler(async (req, res) => {
-  const { username, email, password } = req.body;
-  if (!username || !email) {
+  const { email, password } = req.body;
+ 
+  console.log(email,password);
+  if (!email || !password) {
     throw new ApiError(400, "Username or password is required");
   }
+  const username = null;
   const user = await User.findOne({
     $or: [{ username }, { email }],
   });

@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logIn } from '../../services/operations/authAPI';
 
-const Homepage = ()=>{
+const Homepage = ()=>  {
       const [formData,setFormData] = useState({
             email: '',
             password: '',

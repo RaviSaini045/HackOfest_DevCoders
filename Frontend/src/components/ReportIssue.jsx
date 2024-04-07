@@ -6,6 +6,23 @@ const Report =()=>{
     const logState = state => {
         console.log('Toggled:', state)
     }
+    
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    description: "",
+    anonymous: "",
+    media: "",
+   
+  });
+
+  const usernameRef = useRef(null);
+  const emailRef = useRef(null);
+  const nameRef = useRef(null);
+  const aadharCardRef = useRef(null);
+  const passwordRef = useRef(null);
+  const roleRef = useRef(null);
+
    return (
     <>
       <div className="bg-kaddu-200 h-[400px] w-[800px] m-5 p-5 shadow-2xl rounded-lg" style={{ backgroundImage: `url(${bgImg})` }} > 

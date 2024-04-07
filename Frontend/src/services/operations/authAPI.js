@@ -57,17 +57,21 @@ export const signUp = (signUpData,navigate) => {
     }
 };
 
-export const logIn = async(loginData,navigate) => {
+export const logIn = (loginData,navigate) => {
     console.log("inside login api",loginData);
     return async (dispatch) => {
         try {
         const response = await apiConnector("POST",LOGIN,{
-            loginData,
+            email: loginData.email,
+            password: loginData.password,
         });
         if(!response.data.success)
             throw new Error("Something went wrong while login the user");
         dispatch(setToken(response.data.accessToken));
         dispatch(setUserData(response.data));
+        dispatch(setToken(response.data.data.accessToken));
+        document.cookie = `accessToken=${response.data.data.accessToken}; SameSite=Lax; Secure`;
+        navigate("/issue");
         } catch (error) {
             console.log(error.message);
             navigate("/error");
@@ -75,10 +79,13 @@ export const logIn = async(loginData,navigate) => {
     }
 }
 
-export const logout = async(navigate)  => {
+export const logout = (navigate)  => {
+    console.log("inside logout");
     return async (dispatch) => {
         try {
-        const response = await apiConnector("POST",LOGOUT);
+        const response = await apiConnector("POST",LOGOUT,{},{
+            Cookie: document.cookie,
+        });
         if(!response.data.success)
             throw new Error("Something Went wrong while logging out the user");
         dispatch(setToken(null));

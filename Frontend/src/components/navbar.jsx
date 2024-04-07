@@ -1,14 +1,33 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { VscAccount } from 'react-icons/vsc';
 import { VscArrowCircleRight } from 'react-icons/vsc';
 import Doodle from '../assets/Doodle.svg'; 
 import Search from '../assets/search_icon.svg'; 
 import Logo from '../assets/LOGO.svg'
-// import Popup from "reactjs-popup"
-// import ReportIssue from "../components/ReportIssue.jsx"
+<<<<<<< HEAD
+<<<<<<< HEAD
+import Popup from "reactjs-popup"
+import ReportIssue from "../components/ReportIssue.jsx"
+=======
+import { useDispatch } from "react-redux";
+import { logout } from '../services/operations/authAPI';
+>>>>>>> 6063a32615fb188223e592d3fb92b1448acefea3
+=======
+import { useDispatch } from "react-redux";
+import { logout } from '../services/operations/authAPI';
+>>>>>>> 6063a32615fb188223e592d3fb92b1448acefea3
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogOut = (e) => {
+    e.preventDefault();
+
+    console.log("inside handle logout");
+    dispatch(logout(navigate));
+  }
   return (
     <div className="h-screen  bg-kaddu-100 flex flex-col justify-between items-center shadow-2xl sticky top-0 " style={{ backgroundImage: `url(${Doodle})` }}>
       <div className="mx-10 sm:mx-20 text-lg md:text-2xl font-semibold flex-col content-evenly flex-grow flex justify-evenly">
@@ -25,7 +44,7 @@ const Navbar = () => {
           <Link to="/">Home</Link></div>
         <div><Link to="/detail">My Post</Link></div>
         <div>MY Likes</div>
-        <div><Link to="/govt">Govt Projects</Link></div>
+        <div><Link to="/govt-projects">Govt Projects</Link></div>
       </div>
 
       <div className="text-lg md:text-2xl font-semibold">
@@ -53,7 +72,7 @@ const Navbar = () => {
         </div> </Link>
 
         <div className="flex justify-center flex-shrink">
-          <button className="profile m-1.5">LOGOUT</button>
+          <button className="profile m-1.5" type='submit' onClick={handleLogOut}>LOGOUT</button>
           <VscArrowCircleRight className="h-9 w-9 m-[0.75px]" />
         </div>
       </div>
