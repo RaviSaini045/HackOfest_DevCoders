@@ -1,4 +1,4 @@
-import { asynchandler } from "../utils/asynchandler.js";
+import { asynchandler } from "../utils/Asynchandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { Upvote } from "../models/upvote.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
