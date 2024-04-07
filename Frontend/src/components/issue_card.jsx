@@ -10,10 +10,10 @@ import LocationIcon from "../assets/Map_Icon.svg"
 const Issue_card = ()=>{
     return (
      <>
-     <div className="bg-kaddu-200 m-7 p-5 w-4/5 rounded-2xl">
+     <div className="bg-kaddu-200 m-5 p-5 w-4/5 rounded-2xl">
 
 
-     <div className="flex justify-between">
+     <div className="flex justify-between ">
        <div className="flex mt-2 items-center">
         <div>
          <VscAccount className="h-14 w-14 m-1.5 "/>

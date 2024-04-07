@@ -4,9 +4,6 @@ import Update from "./UpdateStatus";
 import Issue_card from "./issue_card";
 import Navbar from "./navbar.jsx";
 import ProjectDescription from "./ProjectDescriptionComponent.jsx"
-import description from "../assets/description_icon.svg"
-import Profile from "../assets/profile_icon.svg"
-import statusBar from "../assets/status_bar2.svg"
 
 const ProjectDetails = ()=>{
     return (
@@ -20,19 +17,16 @@ const ProjectDetails = ()=>{
             </div>
 
             <div className=" flex text-center justify-around p-5">
-                <div className="flex-auto w-10 text-kaddu-300"> in Progress</div>
+                <div className="flex-auto w-10"> in Progress</div>
                 <div className="flex-auto w-52"><h1 className="font-bold text-4xl text-center">NIT PATNA BIHTA CAMPUS</h1></div>
-                <div className=" flex flex-auto w-12 justify-around">
+                <div className=" flex flex-auto w-10 justify-around">
                 <div>
                         <Popup trigger={
-                                    <div className="flex">
-
-                                    <button className= "p-2 rounded-lg ">Details
-                                     
+                                    <div>
+                                    <button className="bg-blue-300 p-2 rounded-lg ">Details
+                                    <img src="" alt="" /> 
                                     </button>
-                                    <img src={description} alt="description" />
-
-                                 </div>}
+                                </div>}
                                     modal nested>
                                         {
                                                 close => (
@@ -43,7 +37,7 @@ const ProjectDetails = ()=>{
                     <div>
                         <Popup trigger={
                                     <div>
-                                    <button className="bg-kaddu-400 text-white font-bold p-2 rounded-lg ">Update Status</button>
+                                    <button className="bg-blue-300 p-2 rounded-lg ">Update Status</button>
                                 </div>}
                                     modal nested>
                                         {
@@ -54,33 +48,20 @@ const ProjectDetails = ()=>{
                     </div>
                     
             </div>
-            
-            </div>
-            <div className="flex justify-center items-center ">
-            <div className="mx-2"><img src={Profile}></img> </div>
-                            
-                                <div className="mx-2">Alexendra Dardio</div>
-                                <div className="mx-2">@husnpari</div>
-                           
             </div>
 
             
             
                   
-           <div className="flex justify-center my-2">
-            <img src={statusBar} alt="" />
+           <div className="m-7">
+            Yha abhi prgress bar aayega....!!!!
            </div>
             
-            <div className="flex justify-center my-1">
-                <button className="bg-kaddu-400 text-white font-bold rounded-lg m-2 p-2 ">Save</button>
+            <div className="m-5">
+                <button className="bg-blue-400 rounded-lg m-2 p-2 ">Save</button>
             </div>
             
-            <div className="flex flex-wrap justify-center">
-                <Issue_card />
-                <Issue_card/>
-                <Issue_card/>
-                <Issue_card/>
-                </div>
+            <Issue_card />
         </div>
         </div>
         </>

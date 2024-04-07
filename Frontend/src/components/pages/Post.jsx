@@ -3,14 +3,18 @@ import Issue_card from '../issue_card'
 import Navbar from '../navbar'
 import Comment from '../comment'
 import bgImage from "../../assets/doodle_background.svg"
+import PhoneNavbar from '../PhoneSizeNavbar'
+
 const Post = () => {
   return (
     <>
     <div className="flex " style={{backgroundImage: `url(${bgImage})`}}>
           
-    <div className="">
+    <div className="hidden sm:block">
       <Navbar/>
-
+    </div>
+    <div className="sm:hidden">
+          <PhoneNavbar/>
     </div>
    <div className="flex flex-wrap justify-center">
    <Issue_card />

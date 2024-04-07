@@ -5,8 +5,8 @@ import { VscArrowCircleRight } from 'react-icons/vsc';
 import Doodle from '../assets/Doodle.svg'; 
 import Search from '../assets/search_icon.svg'; 
 import Logo from '../assets/LOGO.svg'
-import Popup from "reactjs-popup"
-import ReportIssue from "../components/ReportIssue.jsx"
+// import Popup from "reactjs-popup"
+// import ReportIssue from "../components/ReportIssue.jsx"
 
 const Navbar = () => {
   return (
@@ -30,7 +30,11 @@ const Navbar = () => {
 
       <div className="text-lg md:text-2xl font-semibold">
         
-      <Popup trigger={
+      <div className="m-3 p-2 flex justify-center">
+                         <button className="text-white bg-black rounded-full p-2">ADD POST</button>
+                       </div>
+                       
+      {/* <Popup trigger={
                          <div className="m-3 p-2 flex justify-center">
                          <button className="text-white bg-black rounded-full p-2">ADD POST</button>
                        </div>
@@ -40,7 +44,7 @@ const Navbar = () => {
                                     close => (
                                          <ReportIssue close = {close} />
                                     )}
-             </Popup>
+             </Popup> */}
 
         <Link to="/profile"><div className="flex justify-center flex-shrink">
           <button className="profile m-1.5">PROFILE</button>

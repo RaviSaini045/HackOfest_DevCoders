@@ -6,6 +6,7 @@ import {
     UPDATE_PASSWORD,
 } from "../apis.js";
 import { apiConnector } from "../apiConnector.js";
+import { setToken, setUserData } from "../../slices/authSlice.js";
 
 export const sendOTP = (email,navigate) => {
     return async (dispatch) => {
@@ -24,14 +25,85 @@ export const sendOTP = (email,navigate) => {
     }
 };
 
-export const signUp = async (signUpData,navigate) => {
+export const signUp = (signUpData,navigate) => {
+    console.log(signUpData.signup.signupData);
     return async (dispatch) => {
         try {
-            const response = await apiConnector("POST",REGISTER,{
-                FormData,
-            })
+            const response = await apiConnector(
+              "POST",
+              REGISTER,
+              {
+                fullName: signUpData.signup.signupData.formData.name,
+                email: signUpData.signup.signupData.formData.email,
+                username: signUpData.signup.signupData.formData.username,
+                password: signUpData.signup.signupData.formData.password,
+                aadharCard: signUpData.signup.signupData.formData.aadharCard,
+                otp: signUpData.otp,
+                avatar: signUpData.signup.signupData.avatar,
+              },
+              {
+                "Content-Type": "multipart/form-data",
+              }
+            );
+            if(!response.data.success)
+                throw new Error("Something Went wrong while Verifying the User");
+            dispatch(setToken(response.data.accessToken));
+            dispatch(setUserData(response.data));
+            navigate("/issue");
         } catch (error) {
-            
+            console.log(error.message);
+            navigate("/error");
+        }
+    }
+};
+
+export const logIn = async(loginData,navigate) => {
+    console.log("inside login api",loginData);
+    return async (dispatch) => {
+        try {
+        const response = await apiConnector("POST",LOGIN,{
+            loginData,
+        });
+        if(!response.data.success)
+            throw new Error("Something went wrong while login the user");
+        dispatch(setToken(response.data.accessToken));
+        dispatch(setUserData(response.data));
+        } catch (error) {
+            console.log(error.message);
+            navigate("/error");
+        }
+    }
+}
+
+export const logout = async(navigate)  => {
+    return async (dispatch) => {
+        try {
+        const response = await apiConnector("POST",LOGOUT);
+        if(!response.data.success)
+            throw new Error("Something Went wrong while logging out the user");
+        dispatch(setToken(null));
+        dispatch(setUserData(null));
+        navigate("/");
+        } catch (error) {
+            console.log(error.message);
+            navigate("/error");
+        }
+    }
+}
+
+
+export const updatePassword = (updatePasswordData,navigate)  => {
+    return async (dispatch) => {
+        try {
+            const response = await apiConnector("POST",UPDATE_PASSWORD,{
+            updatePasswordData
+            });
+            if(!response.data.success)
+                throw new Error("Something went wrong while updating the password");    
+            navigate("/login");
+        } catch (error) {
+            console.log(error.message);
+            navigate("/error");
         }
     }
 }

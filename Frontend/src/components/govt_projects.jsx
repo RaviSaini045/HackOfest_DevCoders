@@ -3,8 +3,21 @@ import { MdOutlineLocationOn } from "react-icons/md";
 import Location from "../assets/Map_Icon.svg"
 import { IoMdAddCircle } from "react-icons/io";
 import addProject_icon from "../assets/add_project_icon.svg"
+import Navbar from "./navbar";
+import PhoneNavbar from "./PhoneSizeNavbar";
+
 const GovtProject = ()=>{
    return(
+    <>
+    <div className="flex ">
+        
+    <div className="hidden sm:block">
+      <Navbar/>
+    </div>
+    <div className="sm:hidden">
+          <PhoneNavbar/>
+    </div>
+    
     <div className="">
         <div className="flex m-3 p-3">
             <div>
@@ -82,10 +95,11 @@ const GovtProject = ()=>{
         
         
              <div>
-                <img className="fixed bottom-10 right-10" src={addProject_icon}></img>
+                <img className="fixed bottom-20 right-10" src={addProject_icon}></img>
             </div>
     </div>
-    
+    </div>
+    </>
    );
 };
 

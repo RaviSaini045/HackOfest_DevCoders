@@ -8,6 +8,7 @@ import { sendOTP } from "../services/operations/authAPI";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setSignupData } from "../slices/authSlice";
+import bgImg from "../assets/signup_doodle.svg"
 
 const Register = ({ close }) => {
     const dispatch = useDispatch();
@@ -38,7 +39,7 @@ const Register = ({ close }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(setSignupData(formData));
+    dispatch(setSignupData({formData,avatar}));
     dispatch(sendOTP(formData.email,navigate));
     console.log("submitted...");
     setOpen(false); // Close the Register popup
@@ -49,13 +50,16 @@ const Register = ({ close }) => {
     setOtpOpen(false); // Close the OTP Page popup
     setOpen(true); // Open the Register popup
   };
-
+  const [avatar,setAvatar] = useState(null);
   const [open, setOpen] = useState(false); // State for Register popup
   const [otpOpen, setOtpOpen] = useState(false); // State for OTP Page popup
 
   return (
     <>
-      <div className="bg-pink-50 w-[500px] h-[550px] rounded-lg shadow-lg">
+      <div
+        className="bg-kaddu-200 w-[500px] h-[600px] rounded-lg shadow-2xl"
+        style={{ backgroundImage: `url(${bgImg})` }}
+      >
         <div className="flex justify-between">
           <div>
             <img className="h-[75px] w-[75px] pl-5" src={Logo} alt="Logo"></img>
@@ -68,14 +72,18 @@ const Register = ({ close }) => {
           <img className="h-16 w-16 fixed pb-7 " src={Avtar} alt="Avatar" />
           <input
             type="file"
+            required
             className="opacity-0"
-            onChange={handleChange}
+            onChange={(e) => {
+                setAvatar(e.target.files[0]);
+            }}
           ></input>
         </div>
 
         <div className="flex justify-center ">
           <input
             className="rounded-lg text-center m-1 p-1 "
+            required
             ref={usernameRef}
             type="text"
             name="username"
@@ -86,6 +94,7 @@ const Register = ({ close }) => {
         <div className="flex justify-center ">
           <input
             ref={emailRef}
+            required
             className="rounded-lg text-center m-1 p-1"
             type="email"
             name="email"
@@ -96,6 +105,7 @@ const Register = ({ close }) => {
         <div className="flex justify-center ">
           <input
             ref={nameRef}
+            required
             className="rounded-lg text-center m-1 p-1"
             type="text"
             name="name"
@@ -106,6 +116,7 @@ const Register = ({ close }) => {
         <div className="flex justify-center ">
           <input
             ref={aadharCardRef}
+            required
             className="rounded-lg text-center m-1 p-1"
             type="number"
             name="aadharCard"
@@ -116,6 +127,7 @@ const Register = ({ close }) => {
         <div className="flex justify-center ">
           <input
             ref={passwordRef}
+            required
             className="rounded-lg text-center m-1 p-1"
             type="password"
             name="password"
@@ -124,11 +136,11 @@ const Register = ({ close }) => {
           ></input>
         </div>
 
-        <div className="flex justify-center m-2">
-          <label className="font-semibold">
+        <div className="flex justify-center m-2 p-2">
+          <label className="font-semibold flex justify-center">
             Select Your Role:
             <select
-              className="rounded-lg m-1 p-1"
+              className="rounded-lg m-2 h-8"
               ref={roleRef}
               name="role"
               onChange={handleChange}
@@ -140,7 +152,7 @@ const Register = ({ close }) => {
           </label>
         </div>
 
-        <div className="flex justify-center ">
+        <div className="flex justify-center m-3 p-3">
           <form onSubmit={handleSubmit}>
             <button
               className="rounded-lg bg-black text-white m-2 p-2"
@@ -155,8 +167,8 @@ const Register = ({ close }) => {
           {(close) => <OtpPage close={close} />}
         </Popup>
 
-        <div className="flex justify-center ">
-          <label>
+        <div className="flex justify-evenly">
+          <label className="flex justify-center">
             Already Have An Account ?
             <button
               className="text-blue-600 p-1 m-1 font-bold text-3xl"
