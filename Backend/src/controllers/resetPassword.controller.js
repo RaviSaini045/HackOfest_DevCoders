@@ -27,6 +27,8 @@ const generateresetPasswordToken = asynchandler(async (req, res, _) => {
       },
     },
     { new: true }
+  ).select(
+    "-password -refreshToken"
   );
   console.log(updatedUser);
   if (!updatedUser)

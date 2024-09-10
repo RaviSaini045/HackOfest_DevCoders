@@ -7,7 +7,7 @@ const router = Router();
 
 
 router.route("/post-project").post(verifyJWT,upload.single("projectModel"), postProject);
-router.route("/get-projects").get(verifyJWT,getProject);
+router.route("/get-projects").post(verifyJWT,getProject);
 router.route("/get-project-by-filter").get(verifyJWT,getProjectByFilter);
 router.route("/get-project/:projectId").get(verifyJWT,getProjectById);
 router.route("/update-project/:projectId").patch(verifyJWT, updateProjectStatus);

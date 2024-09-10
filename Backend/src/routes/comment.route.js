@@ -6,7 +6,7 @@ const router = Router();
 
 
 router.route("/post-comment").post(verifyJWT, postComment);
-router.route("/get-comment").get(verifyJWT, getComments);
+router.route("/get-comment/:issueId").get(verifyJWT, getComments);
 router.route("/delete-comment").delete(verifyJWT, deleteComment);
 
 export default router;

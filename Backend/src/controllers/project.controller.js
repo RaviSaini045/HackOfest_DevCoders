@@ -36,7 +36,7 @@ const postProject = asynchandler(async (req, res, _) => {
 
 const getProject = asynchandler(async (req, res, _) => {
   const { currentLatitude, currentLongitude } = req.body;
-  const radiusInMeters = 5000;
+  const radiusInMeters = 50000;
   const project = await Project.find({
     location: {
       $near: {

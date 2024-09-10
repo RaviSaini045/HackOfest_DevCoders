@@ -4,9 +4,12 @@ import {
     LOGIN,
     LOGOUT,
     UPDATE_PASSWORD,
+    RESET_PASSWORD_TOKEN,
+    RESET_PASSWORD
+
 } from "../apis.js";
 import { apiConnector } from "../apiConnector.js";
-import { setToken, setUserData } from "../../slices/authSlice.js";
+import { setResetpassWordtoken, setToken, setUserData } from "../../slices/authSlice.js";
 
 export const sendOTP = (email,navigate) => {
     return async (dispatch) => {
@@ -46,9 +49,17 @@ export const signUp = (signUpData,navigate) => {
               }
             );
             if(!response.data.success)
+                
                 throw new Error("Something Went wrong while Verifying the User");
-            dispatch(setToken(response.data.accessToken));
-            dispatch(setUserData(response.data));
+
+            console.log(response.data.user);
+            dispatch(setToken(response.data.data.accessToken));
+            
+            dispatch(setUserData(response.data.data.user));
+            localStorage.setItem("token",JSON.stringify(response.data.data.accessToken));
+            localStorage.setItem("user",JSON.stringify(response.data.data.user));
+
+            // document.cookie = `Bearer ${response.data.data.accessToken}; SameSite=Lax; Secure`;
             navigate("/issue");
         } catch (error) {
             console.log(error.message);
@@ -58,7 +69,6 @@ export const signUp = (signUpData,navigate) => {
 };
 
 export const logIn = (loginData,navigate) => {
-    console.log("inside login api",loginData);
     return async (dispatch) => {
         try {
         const response = await apiConnector("POST",LOGIN,{
@@ -67,10 +77,12 @@ export const logIn = (loginData,navigate) => {
         });
         if(!response.data.success)
             throw new Error("Something went wrong while login the user");
-        dispatch(setToken(response.data.accessToken));
-        dispatch(setUserData(response.data));
+        dispatch(setUserData(response.data.data.user));
         dispatch(setToken(response.data.data.accessToken));
-        document.cookie = `accessToken=${response.data.data.accessToken}; SameSite=Lax; Secure`;
+        localStorage.setItem("token",JSON.stringify(response.data.data.accessToken));
+        localStorage.setItem("user",JSON.stringify(response.data.data.user));
+        // document.cookie = `accessToken=${response.data.data.accessToken}; SameSite=Lax; Secure`;
+        // document.cookie = `Bearer ${response.data.data.accessToken}; SameSite=Lax; Secure`;
         navigate("/issue");
         } catch (error) {
             console.log(error.message);
@@ -84,12 +96,13 @@ export const logout = (navigate)  => {
     return async (dispatch) => {
         try {
         const response = await apiConnector("POST",LOGOUT,{},{
-            Cookie: document.cookie,
+            Authorization: document.cookie, 
         });
         if(!response.data.success)
             throw new Error("Something Went wrong while logging out the user");
         dispatch(setToken(null));
         dispatch(setUserData(null));
+        localStorage.clear();
         navigate("/");
         } catch (error) {
             console.log(error.message);
@@ -102,9 +115,12 @@ export const logout = (navigate)  => {
 export const updatePassword = (updatePasswordData,navigate)  => {
     return async (dispatch) => {
         try {
-            const response = await apiConnector("POST",UPDATE_PASSWORD,{
-            updatePasswordData
-            });
+            const response = await apiConnector("PATCH",UPDATE_PASSWORD,
+            updatePasswordData,
+            {
+                Authorization: document.cookie,
+            }
+            );
             if(!response.data.success)
                 throw new Error("Something went wrong while updating the password");    
             navigate("/login");
@@ -113,4 +129,52 @@ export const updatePassword = (updatePasswordData,navigate)  => {
             navigate("/error");
         }
     }
+}
+
+
+export const generateResetPasswordToken=(email,navigate)=>{
+    return async (dispatch)=>{
+        try {
+            const response=await apiConnector("PATCH",RESET_PASSWORD_TOKEN,{email});
+            if(!response.data.success){
+                throw new Error("Something Went Worng while generate token")
+            }
+            
+            
+            console.log("ganerated",response.data)
+            dispatch(setResetpassWordtoken(response.data.data.resetPasswordToken));
+            return (response.data);
+
+        } catch (error) {
+            console.log(error);
+            navigate("/error");
+        }
+    }
+};
+
+export const resetPassword=(passwordData,token,navigate)=>{
+    if(!token){
+        alert("token is missing")
+        return 
+    }
+    if(passwordData.password!==passwordData.cpassword){
+        alert("Password is not match")
+        return 
+    }
+    return async (dispatch) => {
+        try {
+            const response = await apiConnector("PATCH",`${RESET_PASSWORD}/${token}`,
+            passwordData);
+            console.log("resetPassword",response.data);
+            if(!response.data.success)
+                throw new Error("Something went wrong while updating the password");    
+            // navigate("/");
+            window.location.reload();
+        } catch (error) {
+            console.log(error.message);
+            navigate("/error");
+        }
+    }
+
+
 }

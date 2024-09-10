@@ -12,8 +12,8 @@ export const Toggle = ({ label, toggled, onClick }) => {
 
     return (
         <label>
-            <input type="checkbox" defaultChecked={isToggled} onClick={callback} />
-            <span />
+            <input className='mx-2' type="checkbox" defaultChecked={isToggled} onClick={callback} />
+            <span/>
             <strong>{label}</strong>
         </label>
     )

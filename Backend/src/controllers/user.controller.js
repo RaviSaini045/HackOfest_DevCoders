@@ -37,6 +37,7 @@ const sendOTP = asynchandler(async (req, res, _) => {
     email,
     otp,
   });
+  console.log(savedOTP);
   if (!savedOTP) throw new ApiError(500, "Unable to Save OTP");
   const mail = mailSender(email, OTP_SUBJECT, `$Your OTP is ${otp}`);
   if (!mail)
@@ -82,15 +83,27 @@ const registerUser = asynchandler(async (req, res) => {
     role,
     username,
   });
+
+  if (!user) {
+    throw new ApiError(500, "Something went wrong while registeing the user ");
+  }
+  const {accessToken,refreshToken}=await generateAcessandRefreshTokens(user._id);
+
   const createdUser = await User.findById(user._id).select(
     "-password -refreshToken"
   );
+
   if (!createdUser) {
     throw new ApiError(500, "Something went wrong while registeing the user ");
   }
+
+
   return res
     .status(201)
-    .json(new ApiResponse(200, createdUser, "User created Sucessfully"));
+    .cookie("accessToken", accessToken, OPTIONS)
+    .cookie("refreshToken", refreshToken, OPTIONS)
+    .json(new ApiResponse(200, {user:createdUser , accessToken, refreshToken }, "User created Sucessfully"
+    ));
 }); //80% tested
 
 const loginUser = asynchandler(async (req, res) => {

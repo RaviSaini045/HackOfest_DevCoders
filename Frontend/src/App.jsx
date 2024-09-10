@@ -17,10 +17,19 @@ import ProjectDescription from './components/ProjectDescriptionComponent.jsx'
 import PhoneNavbar from './components/PhoneSizeNavbar.jsx'
 
 import LocationCapture from './components/LocationCapture.jsx'
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Error from "./components/pages/Error.jsx";
+import { setToken } from './slices/authSlice.js'
+import MyPost from './components/pages/MyPost.jsx'
+import MyLikes from './components/pages/MyLikes.jsx'
 function App() {
   const userLocation = useSelector(state => state.auth.userLocation);
+  const dispatch=useDispatch();
+  const localtoken=JSON.parse(localStorage.getItem("token"));
+  const {token}=useSelector((state)=>state.auth);
+  if(!token){
+    dispatch(setToken(localtoken));
+  }
   return (
     <>
          {!userLocation && <LocationCapture/> }   
@@ -46,10 +55,11 @@ function App() {
             />
     
             <Route
-              path='/issue:issueId'
+              path='/issue/:issueId'
               element= {
                 <PrivateRoute>
-                  <Comment/>
+                  {/* <Comment/> */}
+                  <Post/>
                 </PrivateRoute>
               }
             />
@@ -79,6 +89,22 @@ function App() {
               element={
               <PrivateRoute>
                 <Dashbord/>
+              </PrivateRoute>
+            }
+              />
+            <Route 
+              path="/my-post/" 
+              element={
+              <PrivateRoute>
+                <MyPost/>
+              </PrivateRoute>
+            }
+              />
+            <Route 
+              path="/my-likes/" 
+              element={
+              <PrivateRoute>
+                <MyLikes/>
               </PrivateRoute>
             }
               />

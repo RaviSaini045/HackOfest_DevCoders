@@ -19,11 +19,14 @@ const postComment = asynchandler(async (req, res, _) => {
 })// tested
 
 const getComments = asynchandler(async (req, res, _) => {
-  const { issueId } = req.body;
+  const { issueId } = req.params;
   if (!issueId) throw new ApiError(400, "Issue ID is required");
   const comments = await Comment.find({
     issue: issueId,
-  }).populate("owner").populate("issue").exec();
+  }).populate({
+    path: "owner",
+    select: "-password -email -refreshToken -resetPasswordTokenExpiry -resetPasswordToken -aadharCard -updatedAt -updatedAt", // Exclude the 'password' and 'email' fields from the 'owner'
+  }).populate("issue").sort({ createdAt: -1 }).exec();
   console.log(comments);
   if (!comments) throw new ApiError(500, "Unable to load Comments");
   return res

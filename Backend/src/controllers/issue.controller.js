@@ -9,12 +9,14 @@ import fetch from "node-fetch";
 const postIssue = asynchandler(async (req, res, _) => {
   const { description, longitude, latitude, anonymous } = req.body;
   if (
-    [description, longitude, latitude, anonymous].some(
-      (field) => field?.trim() === ""
+    [description, longitude, latitude,anonymous].some(
+      (field) => String(field).trim() === ""
     )
-  )
-    throw new ApiError(400, "All fields are Required");
-  // const issueImagePath = req.files?.issueImage[0]?.path;
+  ){
+   throw new ApiError(400, "All fields are Required");
+  }
+  console.log(description,longitude,latitude,anonymous);
+  // // const issueImagePath = req.files?.issueImage[0]?.path;
   if (!req.files) throw new ApiError(403, "Image path is required");
   const imgUpload = async () => {
     try {
@@ -67,7 +69,7 @@ const postIssue = asynchandler(async (req, res, _) => {
 
 const getIssues = asynchandler(async (req, res, _) => {
   const { currentLatitude, currentLongitude } = req.body;
-  const radiusInMeters = 5000;
+  const radiusInMeters = 50000;
   const issues = await Issue.find({
     location: {
       $near: {
@@ -137,6 +139,46 @@ const updateIssue = asynchandler(async (req, res, _) => {
     .json(new ApiResponse(200, updatedIssue, "Issue Updated Successfully"));
 });//tested
 
-export { postIssue, getIssues, getIssuesByFilter, updateIssue };
+const getIssuesById=asynchandler(async(req,res,_)=>{
+  const {issueId}=req.params;
+  if(!issueId){
+    throw new ApiError(400,"Issues ID is required");
+  }
+  try{
+    const IssuesById=await Issue.findById(issueId).populate({
+      path: "reportedBy",
+    });
+    if(!IssuesById){
+      throw new ApiError(404,"Issue is not found")
+    }
+    return res.status(200).json(
+      new ApiResponse(200,IssuesById,"Issuse by id fetched successfully")
+    );
+  }catch(err){
+    console.log(err);
+    throw new ApiError(500,err);
+  }
+})
+
+const getUsersIssues=asynchandler(async(req,res,_)=>{
+  try {
+    const userId=req.user._id
+    if(!userId){
+      throw new ApiError(400,"User Id is required")
+    }
+    const IssuesOfUser=await Issue.find({reportedBy:userId}).populate({
+      path: "reportedBy",
+    }).exec();
+    return res.status(200).json(
+      new ApiResponse(200,IssuesOfUser,"Issuse of user fetched successfully")
+    );
+  } catch (error) {
+    console.log(error);
+    throw new ApiError(500,error);
+  }
+})
+
+
+export { postIssue, getIssues, getIssuesByFilter, updateIssue ,getIssuesById,getUsersIssues };
 
 
